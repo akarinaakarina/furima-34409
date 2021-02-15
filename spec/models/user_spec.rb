@@ -75,6 +75,38 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
+      it 'パスワードは半角英字だけでは登録できない' do
+        @user.password = 'aaaaaa'
+        @user.password_confirmation = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password には英字と数字の両方を含めて設定してください')
+      end
+      it 'パスワードは半角数字だけでは登録できない' do
+        @user.password = '111111'
+        @user.password_confirmation = '111111'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password には英字と数字の両方を含めて設定してください')
+      end
+      it 'ユーザー本名(苗字)は、全角（漢字・ひらがな・カタカナ）の入力でないと登録できない' do
+        @user.last_name = 'a'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last name には全角（漢字・ひらがな・カタカナ）での入力をしてください')
+      end
+      it 'ユーザー本名(名前)は、全角（漢字・ひらがな・カタカナ）の入力でないと登録できない' do
+        @user.first_name = 'a'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name には全角（漢字・ひらがな・カタカナ）での入力をしてください')
+      end
+      it 'ユーザー本名(苗字)のフリガナは、全角（カタカナ）の入力でないと登録できない' do
+        @user.last_kana = 'a'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last kana には全角（カタカナ）での入力をしてください')
+      end
+      it 'ユーザー本名(名前)のフリガナは、全角（カタカナ）の入力でないと登録できない' do
+        @user.first_kana = 'a'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First kana には全角（カタカナ）での入力をしてください')
+      end
     end
   end
 end
