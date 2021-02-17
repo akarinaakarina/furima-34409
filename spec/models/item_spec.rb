@@ -67,6 +67,16 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price には半角数字での入力をしてください')
       end
+      it 'priceが半角英数混合では商品出品できない' do
+        @item.price = "1000a"
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price には半角数字での入力をしてください')
+      end
+      it 'priceが半角英語だけでは商品出品できない' do
+        @item.price = "1000a"
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price には半角数字での入力をしてください')
+      end
       it 'imageが空では商品出品できない' do
         @item.image = nil
         @item.valid?
