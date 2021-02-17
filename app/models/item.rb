@@ -1,5 +1,4 @@
 class Item < ApplicationRecord
-
   has_one :buy
   belongs_to :user
   has_one_attached :image
@@ -15,10 +14,10 @@ class Item < ApplicationRecord
     validates :name
     validates :description
     validates :image
-    validates :price, format: {with: /\A[0-9]+\z/, message:'には半角数字での入力をしてください'}
+    validates :price, format: { with: /\A[0-9]+\z/, message: 'には半角数字での入力をしてください' }
   end
 
-  validates_inclusion_of :price, in: 300..9999999
+  validates_inclusion_of :price, in: 300..9_999_999
 
   with_options numericality: { other_than: 1 } do
     validates :category_id
@@ -26,6 +25,5 @@ class Item < ApplicationRecord
     validates :delivery_style_id
     validates :prefecture_id
     validates :delivery_day_id
-  end 
+  end
 end
-
