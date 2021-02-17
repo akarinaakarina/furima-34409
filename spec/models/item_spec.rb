@@ -9,11 +9,7 @@ RSpec.describe Item, type: :model do
     context '商品出品できるとき' do
       it 'name,description,category_id,state_id,delivery_style_id,prefecture_id,delivery_day_id,price,imageが存在すれば出品できる' do
         expect(@item).to be_valid
-      end
-      it 'priceは半角数字で¥300~¥9,999,999の間のみ出品できる' do
-        @item.price = '10000'
-        expect(@item).to be_valid
-      end
+      end 
     end
     context '商品出品できないとき' do
       it 'nameが空では商品出品できない' do
@@ -65,6 +61,11 @@ RSpec.describe Item, type: :model do
         @item.price = 10_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not included in the list')
+      end
+      it 'priceが全角数字では商品出品できない' do
+        @item.price = "１０００"
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price には半角数字での入力をしてください')
       end
       it 'imageが空では商品出品できない' do
         @item.image = nil
