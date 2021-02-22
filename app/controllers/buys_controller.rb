@@ -1,7 +1,7 @@
 class BuysController < ApplicationController
-  before_action :authenticate_user!, only: :index
+  before_action :authenticate_user!, only: [:index, :create]
   before_action :set_post, only: [:index, :create]
-  before_action :move_to_index, only: :index
+  before_action :move_to_index, only: [:index, :create]
 
   def index
     @buy_address = BuyAddress.new

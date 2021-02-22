@@ -10,6 +10,10 @@ RSpec.describe BuyAddress, type: :model do
       it 'token,postal_code,prefecture_id,municipality,address,phone_numberがあれば商品購入できる' do
         expect(@buy_address).to be_valid
       end
+      it '建物名が抜けていても商品購入できる' do
+        @buy_address.building_name = ''
+        expect(@buy_address).to be_valid
+      end
     end
     context '商品出品できないとき' do
       it 'tokenが空では商品出品できない' do
@@ -31,6 +35,11 @@ RSpec.describe BuyAddress, type: :model do
         @buy_address.prefecture_id = ''
         @buy_address.valid?
         expect(@buy_address.errors.full_messages).to include("Prefecture is not a number")
+      end
+      it 'prefecture_idが1では商品出品できない' do
+        @buy_address.prefecture_id = 1
+        @buy_address.valid?
+        expect(@buy_address.errors.full_messages).to include("Prefecture must be other than 1")
       end
       it 'municipalityが空では商品出品できない' do
         @buy_address.municipality = ''
@@ -56,6 +65,16 @@ RSpec.describe BuyAddress, type: :model do
         @buy_address.phone_number = '０９０１２３４５６７８'
         @buy_address.valid?
         expect(@buy_address.errors.full_messages).to include("Phone number の登録には11桁以内の半角数字のみです")
+      end
+      it 'user_idが空では商品出品できない' do
+        @buy_address.user_id = ''
+        @buy_address.valid?
+        expect(@buy_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空では商品出品できない' do
+        @buy_address.item_id = ''
+        @buy_address.valid?
+        expect(@buy_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
