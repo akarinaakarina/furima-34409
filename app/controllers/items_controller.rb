@@ -53,5 +53,4 @@ class ItemsController < ApplicationController
   def move_to_index
     redirect_to action: :index if current_user.id != @item.user.id || @item.buy.present?
   end
-
 end
